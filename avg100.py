@@ -11,7 +11,6 @@ def extract_times(filename, cube=0):
     data = infile.readlines()
 
     times = []
-    scramble = []
     for line in data:
         Type = line.split("[[")
         for i in Type:
@@ -33,29 +32,14 @@ def extract_times(filename, cube=0):
                 #print(j)
                 times.append(j)
 
-        scram = line.split(",")
-        for i in scram:
-            #scramble.append(len(i))
-            if len(i) > 40:
-                scramble.append(i)
-
-    d = dict(zip(times, scramble))
-
     infile.close()
 
-    minlim = [1,35,74,120,190]
-    maxlim = [30,70,120,190,300]
-    if int(cube) != 0:
-        times1 = []
-        for i in range(len(times)):
-            if times[i] > minlim[int(cube)-3] and times[i] < maxlim[int(cube)-3]:
-                times1.append(times[i])
-        return times1, scramble, d
-    else:
-        return times, scramble, d
+
+    return times
 
 
 def avgs(times):
+    """calculating the different averages"""
     mo3 = []
 
     for i in range(len(times)-3):
@@ -102,18 +86,12 @@ def sub_n(y, num):
     print("---------------------")
 
 
-def sort(times, d, sub=0):
+def sort(times, d):
     y = sorted(times)
-    if int(sub) != 0:
-        r = 0
-        for i in y:
-            r += 1
-            if i < int(sub):
-                print("{0:}. {1:.2f}".format(r, i))
-    else:
-        for i in range(len(times)):
-            print("{0:.0f}. {1:.2f}: {2:s}".format(i+1, y[i],d[y[i]]))
-            #print(y[i])
+
+    for i , l in enumerate(len(times)):
+        print("{(l):.0f}. {y[i]:.2f}: {d[y[i]]:.s}")
+        #print(y[i])
 
 
 def plot_times(times):
@@ -139,20 +117,11 @@ def plot_times(times):
 if __name__ == "__main__":
     filename = sys.argv[1]
 
-    if len(sys.argv) >= 3:
-        times, scramble, d = extract_times(filename, sys.argv[2])
-        if len(sys.argv) == 4:
-            print("hei")
-            sort(times, d, sys.argv[3])
-        else:
-            print("hei")
-            sort(times, d)
-
-    else:
-        times, scramble, d = extract_times(filename)
-        sort(times, d)
+    times = extract_times(filename)
+    #sort(times)
 
     plot_times(times)
+
 
     avg50s(times)
 
@@ -162,3 +131,4 @@ if __name__ == "__main__":
         sub_n(times, sys.argv[3])
 
     print("All over mean: {0:1.2f}" .format(sum(times)/len(times)))
+    print("heiehe")
