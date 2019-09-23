@@ -26,9 +26,12 @@ cube = curses.initscr()
 solves = 2
 
 for i in range(205):
+    cube.addstr(23, 62, "Exit: Press ( q )")
     if solves > 2:
         new = input_char("Presing space for new solve:  \n")
-        
+        if new == "q":
+            break
+
     start = input_char("Start by presing space:  \n")
 
     if start == "q":
@@ -38,6 +41,9 @@ for i in range(205):
         tid = time.time()
 
     stop = input_char("Press space to stop timer:\n")
+
+    if stop == "q":
+        break
 
     if stop == " ":
         tid1 = time.time()
