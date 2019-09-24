@@ -21,16 +21,6 @@ def input_char(message):
 """
 -------------------------------------------
 """
-def show_time(tid):
-    counter = 1
-    for i in range(10000000000):
-        #print("hei")
-
-        new_time = time.time()
-        final = new_time - tid 
-        if final > counter:
-            cube.addstr(0, 30, f"{counter}s")
-            counter += 1
 
 times = []
 cube = curses.initscr()
