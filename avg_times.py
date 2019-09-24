@@ -1,7 +1,4 @@
 import sys
-from scramblefromfile import (
-    times,
-    all_times,)
 import matplotlib.pyplot as plt
 from math import ceil
 import numpy as np
@@ -16,8 +13,8 @@ def avgs(times):
         avgsum = sum(time) / 3
         mo3.append(round(avgsum, 3))
     # print(float(min(mo3)))
-    sec_to_min(min(mo3), 0, "mo3")
-    # print(f"Best Avgs:\n\nMo3: {min(mo3):.2f}")
+    min_time = sec_to_min(min(mo3))
+    print(f"Best Avgs:\n\nMo3: {min_time}")
 
     session = [5, 12]
     if len(times) >= 50:
@@ -33,7 +30,9 @@ def avgs(times):
             avgsum = (sum(time) - mami) / (n - 2)
             avg.append(round(avgsum, (n - 2)))
 
-        sec_to_min(min(avg), n)
+        min_time = sec_to_min(min(avg))
+        print(f"avg{n}: {min_time}")
+
     print("---------------------")
 
 
@@ -47,9 +46,10 @@ def avg50s(times):
         sub1 = min(times[i : i + 49]) + max(times[i : i + 49])
         avg1 = (sum(times[i : i + 49]) - sub1) / 48
 
-        hei = f"Avg({i+1}-{i+50}):"
-        # print(f"Avg({i+1}-{i+50}): {avg1:.2f}")
-        sec_to_min(avg1, 0, hei)
+        #hei = f"Avg({i+1}-{i+50}):"
+
+        min_time = sec_to_min(avg1)
+        print(f"Avg({i+1}-{i+50}): {min_time}")
     print("---------------------")
 
 
@@ -62,46 +62,38 @@ def sub_n(y, num):
     print("---------------------")
 
 
-def sec_to_min(avg, n, name_avg="hei"):
+def sec_to_min(avg):
+    """
+    convert seconds to min, limit of ten min.
+    """
+    timemin = []
+    
+    limits = [60,120,180,240,300,360,420,480,540] 
 
-    if name_avg == "mo3":
-        if avg < 60:
-            print(f"Best Avgs:\n\nMo3: {avg:.2f}")
-        if avg > 60 and avg < 120:
-            print(f"Best Avgs:\n\nMo3: 1:{(avg-60):.2f}")
-        if avg > 120 and avg < 180:
-            print(f"Best Avgs:\n\nMo3: 2:{(avg-120):.2f}")
-        if avg > 180 and avg < 240:
-            print(f"Best Avgs:\n\nMo3: 3:{(avg-180):.2f}")
-        if avg > 240 and avg < 300:
-            print(f"Best Avgs:\n\nMo3: 4:{(avg-240):.2f}")
+    for i in range(len(limits)-1):
+        #print(i)
+        if avg < 60 or avg > 600:
+            timemin.append(f"{avg:.2f}")
+            break
+        if avg > limits[i] and avg < limits[i+1]:
+            timemin.append(f"{i+1}:{(avg-limits[i]):.2f}")
+            break
 
-    if len(name_avg) > 8:
-        if avg < 60:
-            print(f"{name_avg} {avg:.2f}")
-        if avg > 60 and avg < 120:
-            print(f"{name_avg} 1:{(avg-60):.2f}")
-        if avg > 120 and avg < 180:
-            print(f"{name_avg} 2:{(avg-120):.2f}")
-        if avg > 180 and avg < 240:
-            print(f"{name_avg} 3:{(avg-180):.2f}")
-        if avg > 240 and avg < 300:
-            print(f"{name_avg} 4:{(avg-240):.2f}")
+    #print(len(timemin[0]))
+    if len(timemin[0]) == 6:
+        min_time = timemin[0]
+        min_time = timemin[0][:2] + "0" + timemin[0][2:]
+        
+        return min_time
+    else:   
+        return timemin[0]
 
-    else:
-        if avg < 60:
-            print(f"avg{n}: {avg:.2f}")
-        if avg > 60 and avg < 120:
-            print(f"avg{n}: 1:{(avg-60):.2f}")
-        if avg > 120 and avg < 180:
-            print(f"avg{n}: 2:{(avg-120):.2f}")
-        if avg > 180 and avg < 240:
-            print(f"avg{n}: 3:{(avg-180):.2f}")
-        if avg > 240 and avg < 300:
-            print(f"avg{n}: 4:{(avg-240):.2f}")
 
 
 if __name__ == "__main__":
+    from scramblefromfile import (
+    times,
+    all_times,)
 
     if len(sys.argv) == 3:
         cube = all_times[(int(sys.argv[2])-3)]
