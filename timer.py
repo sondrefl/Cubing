@@ -1,5 +1,6 @@
 import curses
 import time
+from avg_times import sec_to_min
 
 """
 -------------------------------------------
@@ -20,6 +21,16 @@ def input_char(message):
 """
 -------------------------------------------
 """
+def show_time(tid):
+    counter = 1
+    for i in range(10000000000):
+        #print("hei")
+
+        new_time = time.time()
+        final = new_time - tid 
+        if final > counter:
+            cube.addstr(0, 30, f"{counter}s")
+            counter += 1
 
 times = []
 cube = curses.initscr()
@@ -39,32 +50,35 @@ for i in range(205):
 
     if start == " ":
         tid = time.time()
+        #show_time(tid)
 
-    stop = input_char("Press space to stop timer:\n")
+    stop = input_char("Press any key to stop timer:\n")
 
     if stop == "q":
         break
 
-    if stop == " ":
+    if stop != "uyuyuy":
         tid1 = time.time()
         final_time = tid1 - tid
         if int(final_time) > 5:
             times.append(f"{final_time:.2f}")
 
+        final_time = sec_to_min(final_time)
+
         if solves < 22:
-            cube.addstr(solves, 0, f"{solves-1}. {final_time:.2f}")
+            cube.addstr(solves, 0, f"{solves-1}. {final_time}")
 
         if solves > 21 and solves <= 41:
-            cube.addstr(solves-20, 12, f"{solves-1}. {final_time:.2f}")
+            cube.addstr(solves-20, 12, f"{solves-1}. {final_time}")
 
         if solves > 41 and solves <= 61:
-            cube.addstr(solves-40, 24, f"{solves-1}. {final_time:.2f}")
+            cube.addstr(solves-40, 24, f"{solves-1}. {final_time}")
 
         if solves > 61 and solves <= 81:
-            cube.addstr(solves-60, 36, f"{solves-1}. {final_time:.2f}")
+            cube.addstr(solves-60, 36, f"{solves-1}. {final_time}")
 
         if solves > 81:
-            cube.addstr(solves-80, 48, f"{solves-1}. {final_time:.2f}")
+            cube.addstr(solves-80, 48, f"{solves-1}. {final_time}")
 
         if solves == 101:
             for i in range(100):
