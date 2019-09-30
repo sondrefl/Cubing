@@ -16,7 +16,9 @@ def avgs(times):
     min_time = sec_to_min(min(mo3))
     print(f"Best Avgs:\n\nMo3: {min_time}")
 
-    session = [5, 12]
+    session = [5]
+    if len(times) > 11:
+        session = [5, 12]
     if len(times) >= 50:
         session = [5, 12, 50]
     if len(times) >= 100:
@@ -24,12 +26,13 @@ def avgs(times):
 
     for n in session:
         avg = []
-        for i in range(len(times) - n):
+        for i in range(len(times) - (n-1)):
             time = times[i : i + n]
             mami = max(time) + min(time)
             avgsum = (sum(time) - mami) / (n - 2)
             avg.append(round(avgsum, (n - 2)))
 
+        #print(avg)
         min_time = sec_to_min(min(avg))
         print(f"avg{n}: {min_time}")
 
