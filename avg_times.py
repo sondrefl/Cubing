@@ -70,17 +70,20 @@ def sec_to_min(avg):
     convert seconds to min, limit of ten min.
     """
     timemin = []
-    
-    limits = [60,120,180,240,300,360,420,480,540] 
 
-    for i in range(len(limits)-1):
+    if avg >= 60:
+        minut = int(avg // 60)
+        rest = avg-(minut*60)
+
+    for i in range(2):
         #print(i)
-        if avg < 60 or avg > 600:
+        if avg < 60:
             timemin.append(f"{avg:.2f}")
             break
-        if avg > limits[i] and avg < limits[i+1]:
-            timemin.append(f"{i+1}:{(avg-limits[i]):.2f}")
+        else:
+            timemin.append(f"{minut}:{rest:.2f}")
             break
+
 
     #print(len(timemin[0]))
     if len(timemin[0]) == 6:
