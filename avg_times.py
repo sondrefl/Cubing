@@ -40,19 +40,15 @@ def avgs(times):
 
 
 def avg50s(times):
-    n = len(times) // 50
-    avg = [0,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000]
 
-
-    print("---------------------")
-    for i in avg[0:n]:
+    for i in range(0, len(times)-49, 50):
         sub1 = min(times[i : i + 49]) + max(times[i : i + 49])
         avg1 = (sum(times[i : i + 49]) - sub1) / 48
 
-        #hei = f"Avg({i+1}-{i+50}):"
-
         min_time = sec_to_min(avg1)
         print(f"Avg({i+1}-{i+50}): {min_time}")
+
+
     print("---------------------")
 
 
